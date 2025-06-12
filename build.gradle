@@ -1,0 +1,131 @@
+plugins {
+    id 'xq-dev'
+    id 'org.springframework.boot' version "3.3.0"
+    id 'com.avast.gradle.docker-compose' version '0.17.6'
+}
+
+ext {
+    karateVersion = '1.5.1'
+}
+
+group = 'com.xq'
+version = '0.0.1'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+ext {
+    springboot_version = '3.3.0'
+    lombok_version = '1.18.30'
+    junit_version = '5.11.3'
+    slf4j_version = '1.7.36'
+    testng_version = '7.9.0'
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/chauhaidang/xq-kit-common")
+        credentials {
+            username = System.getenv("GITHUB_ACTOR")
+            password = System.getenv("GITHUB_TOKEN")
+        }
+    }
+}
+
+dependencies {
+    compileOnly("org.slf4j:slf4j-api:${slf4j_version}")
+    compileOnly("org.projectlombok:lombok:${lombok_version}")
+
+    implementation "org.springframework.boot:spring-boot-starter-actuator:$springboot_version"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa:$springboot_version"
+    implementation "org.springframework.boot:spring-boot-starter-validation:$springboot_version"
+    implementation "org.springframework.boot:spring-boot-starter-web:$springboot_version"
+    implementation "org.springframework.boot:spring-boot-starter-test:$springboot_version"
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
+
+    annotationProcessor("org.projectlombok:lombok:${lombok_version}")
+    runtimeOnly 'com.h2database:h2:2.2.224'
+
+    testImplementation "io.karatelabs:karate-junit5:${karateVersion}"
+    testImplementation("com.xq:xq-api-test-plan:1.0.0")
+    testImplementation "com.xq:xq-kit-common:1.0.0"
+}
+
+//Extension configuration
+unitTest {
+    path = "com.xq.testplan.unit.*"
+}
+
+sourceSets {
+    test {
+        resources {
+            srcDir file('src/test/java')
+            exclude "**/*.java"
+        }
+    }
+}
+
+tasks.withType(Test).configureEach {
+    useJUnitPlatform()
+    testLogging {
+        showStandardStreams = true
+        showExceptions = true
+        showCauses = true
+    }
+}
+
+tasks.named('test') {
+    filter {
+        includeTestsMatching("com.xq.testplan.unit.*")
+    }
+}
+
+tasks.register('msIntTest', Test) {
+    group = "xq"
+    description = "run micro-service integration testing"
+    filter {
+        includeTestsMatching("com.xq.testplan.integration.*")
+    }
+}
+
+tasks.register("msCompTest", Test) {
+    group = "xq"
+    description = "run micro-service component testing"
+    filter {
+        includeTestsMatching "com.xq.testplan.component.ComponentTestRunner"
+    }
+    useJUnitPlatform()
+    systemProperty "karate.options", "-t=@progression"
+    systemProperty "karate.env", System.properties.getProperty("karate.env", "component")
+    outputs.upToDateWhen { false }
+}
+
+tasks.register('msCompTestCi', Test) {
+    group = "xq"
+    description = "run micro-service component testing in CI"
+    filter {
+        includeTestsMatching "com.xq.testplan.component.ComponentTestRunner"
+    }
+    useJUnitPlatform()
+    systemProperty "karate.options", "-t=@progression"
+    systemProperty "karate.env", System.properties.getProperty("karate.env", "component")
+    outputs.upToDateWhen { false }
+}
+
+dockerCompose {
+    useComposeFiles.set(['docker-compose.yml'])
+    removeVolumes.set(true)
+    removeOrphans.set(true)
+    waitForTcpPorts.set(true)
+    captureContainersOutput.set(true)
+    stopContainers.set(true)
+}
+
+msCompTestCi.dependsOn composeUp
+msCompTestCi.finalizedBy composeDown

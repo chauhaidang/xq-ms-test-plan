@@ -1,0 +1,327 @@
+openapi: 3.0.1
+info:
+  title: TestPlan microservice
+  description: TestPlan microservice api documentation
+  contact:
+    name: David Chau
+    url: https://xq.com
+    email: service.testplan@xq.com
+  license:
+    name: Apache 2.0
+  version: v1
+externalDocs:
+  description: external documentation
+  url: http://localhost:8080/swagger-ui/index.html
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+tags:
+- name: REST APIS  TestPlan
+  description: REST APIS for TestPlan service
+paths:
+  /api/requirement/update:
+    put:
+      tags:
+      - REST APIS  TestPlan
+      summary: Update a test requirement
+      description: API endpoint to update a test requirement by input request
+      operationId: updateAccount
+      parameters:
+      - name: uuid
+        in: query
+        required: true
+        schema:
+          pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[4][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Requirement"
+        required: true
+      responses:
+        "417":
+          description: Expectation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+        "500":
+          description: Http status internal server error - can not update a test requirement
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "200":
+          description: Http status success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+  /api/requirement/create:
+    post:
+      tags:
+      - REST APIS  TestPlan
+      summary: Create a test requirement
+      description: API endpoint to create a test requirement information by input
+        request
+      operationId: createRequirement
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Requirement"
+        required: true
+      responses:
+        "201":
+          description: Http status created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+  /api/requirement/{uuid}:
+    get:
+      tags:
+      - REST APIS  TestPlan
+      summary: Get a test requirement
+      description: API endpoint to get a test requirement information by uuid
+      operationId: fetchAccount
+      parameters:
+      - name: uuid
+        in: path
+        required: true
+        schema:
+          pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[4][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+          type: string
+      responses:
+        "200":
+          description: Http status success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Requirement"
+  /api/requirement/all:
+    get:
+      tags:
+      - REST APIS  TestPlan
+      summary: Get all test requirements
+      description: API endpoint to get all test requirements
+      operationId: getAllRequirements
+      responses:
+        "500":
+          description: An error occurred. Please try again or contact product support
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "200":
+          description: Request processed successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListRequirementsDto"
+  /api/requirement/delete:
+    delete:
+      tags:
+      - REST APIS  TestPlan
+      summary: Delete a test requirement
+      description: API endpoint to delete a test requirement by uuid
+      operationId: deleteAccount
+      parameters:
+      - name: uuid
+        in: query
+        required: true
+        schema:
+          pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[4][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+          type: string
+      responses:
+        "417":
+          description: Expectation failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+        "200":
+          description: Http status success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+        "500":
+          description: Http status internal server error - can not delete a test requirement
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /api/requirement/delete/all:
+    delete:
+      tags:
+      - REST APIS  TestPlan
+      summary: Delete all test requirements
+      description: API endpoint to delete all test requirements
+      operationId: deleteAllRequirements
+      responses:
+        "200":
+          description: Http status success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Response"
+        "500":
+          description: An error occurred. Please try again or contact product support
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+components:
+  schemas:
+    Requirement:
+      required:
+      - description
+      - references
+      - scopes
+      - tags
+      - title
+      type: object
+      properties:
+        title:
+          maxLength: 100
+          minLength: 0
+          type: string
+          description: Requirement title
+          example: Requirement Title
+        description:
+          maxLength: 500
+          minLength: 0
+          type: string
+          description: Requirement description
+          example: Requirement Description
+        scopes:
+          maxLength: 500
+          minLength: 0
+          type: string
+          description: Requirement scopes
+          example: "Scope1, Scope2"
+        tags:
+          maxLength: 200
+          minLength: 0
+          type: string
+          description: Requirement tags
+          example: "Tag1, Tag2"
+        references:
+          maxLength: 500
+          minLength: 0
+          type: string
+          description: Requirement references
+          example: "Reference1, Reference2"
+      description: Requirement request payload object
+    ErrorResponse:
+      type: object
+      properties:
+        apiPath:
+          type: string
+          example: uri=/api/requirements/update
+        errorCode:
+          type: string
+          example: NOT_FOUND
+          enum:
+          - 100 CONTINUE
+          - 101 SWITCHING_PROTOCOLS
+          - 102 PROCESSING
+          - 103 EARLY_HINTS
+          - 103 CHECKPOINT
+          - 200 OK
+          - 201 CREATED
+          - 202 ACCEPTED
+          - 203 NON_AUTHORITATIVE_INFORMATION
+          - 204 NO_CONTENT
+          - 205 RESET_CONTENT
+          - 206 PARTIAL_CONTENT
+          - 207 MULTI_STATUS
+          - 208 ALREADY_REPORTED
+          - 226 IM_USED
+          - 300 MULTIPLE_CHOICES
+          - 301 MOVED_PERMANENTLY
+          - 302 FOUND
+          - 302 MOVED_TEMPORARILY
+          - 303 SEE_OTHER
+          - 304 NOT_MODIFIED
+          - 305 USE_PROXY
+          - 307 TEMPORARY_REDIRECT
+          - 308 PERMANENT_REDIRECT
+          - 400 BAD_REQUEST
+          - 401 UNAUTHORIZED
+          - 402 PAYMENT_REQUIRED
+          - 403 FORBIDDEN
+          - 404 NOT_FOUND
+          - 405 METHOD_NOT_ALLOWED
+          - 406 NOT_ACCEPTABLE
+          - 407 PROXY_AUTHENTICATION_REQUIRED
+          - 408 REQUEST_TIMEOUT
+          - 409 CONFLICT
+          - 410 GONE
+          - 411 LENGTH_REQUIRED
+          - 412 PRECONDITION_FAILED
+          - 413 PAYLOAD_TOO_LARGE
+          - 413 REQUEST_ENTITY_TOO_LARGE
+          - 414 URI_TOO_LONG
+          - 414 REQUEST_URI_TOO_LONG
+          - 415 UNSUPPORTED_MEDIA_TYPE
+          - 416 REQUESTED_RANGE_NOT_SATISFIABLE
+          - 417 EXPECTATION_FAILED
+          - 418 I_AM_A_TEAPOT
+          - 419 INSUFFICIENT_SPACE_ON_RESOURCE
+          - 420 METHOD_FAILURE
+          - 421 DESTINATION_LOCKED
+          - 422 UNPROCESSABLE_ENTITY
+          - 423 LOCKED
+          - 424 FAILED_DEPENDENCY
+          - 425 TOO_EARLY
+          - 426 UPGRADE_REQUIRED
+          - 428 PRECONDITION_REQUIRED
+          - 429 TOO_MANY_REQUESTS
+          - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
+          - 451 UNAVAILABLE_FOR_LEGAL_REASONS
+          - 500 INTERNAL_SERVER_ERROR
+          - 501 NOT_IMPLEMENTED
+          - 502 BAD_GATEWAY
+          - 503 SERVICE_UNAVAILABLE
+          - 504 GATEWAY_TIMEOUT
+          - 505 HTTP_VERSION_NOT_SUPPORTED
+          - 506 VARIANT_ALSO_NEGOTIATES
+          - 507 INSUFFICIENT_STORAGE
+          - 508 LOOP_DETECTED
+          - 509 BANDWIDTH_LIMIT_EXCEEDED
+          - 510 NOT_EXTENDED
+          - 511 NETWORK_AUTHENTICATION_REQUIRED
+        errorMessage:
+          type: string
+          description: Error message returned from implementation logic
+          example: Requirement not found with the given input data requirement uuid:'1234-5661-1235-1232-5112'
+        errorTime:
+          type: string
+          description: Date time when error occur
+          format: date-time
+    Response:
+      type: object
+      properties:
+        statusCode:
+          type: string
+        statusMsg:
+          type: string
+        uuid:
+          type: string
+    ListRequirementsDto:
+      type: object
+      properties:
+        total:
+          type: integer
+          description: Total number of requirements
+          format: int32
+          example: 5
+        requirements:
+          type: array
+          description: List of requirement objects
+          items:
+            $ref: "#/components/schemas/Requirement"
+      description: Requirements response payload object

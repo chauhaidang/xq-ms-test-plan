@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  xq-ms-test-plan:
+    image: xq-ms-test-plan:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: on-failure
+    ports:
+      - "8081:8081"
+    deploy:
+      resources:
+        limits:
+          memory: 300m
+    environment:
+      SPRING_PROFILES_ACTIVE: "component"
