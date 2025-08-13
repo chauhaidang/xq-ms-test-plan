@@ -1,0 +1,28 @@
+meta {
+  name: view the created requirement again
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{gw}}/{{path}}/{{reqId}}
+  body: none
+  auth: inherit
+}
+
+assert {
+  res.body.title: isString
+  res.body.description: eq "Test Description"
+  res.body.scopes: eq "scope1,scope2"
+  res.body.tags: eq "tag1,tag2"
+  res.body.references: eq "http: //example.com"
+}
+
+script:post-response {
+  bru.setVar("reqTitle", res.body.title)
+  bru.setNextRequest("delete the requirement")
+}
+
+settings {
+  encodeUrl: true
+}

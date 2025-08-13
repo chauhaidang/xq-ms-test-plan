@@ -35,6 +35,7 @@ Feature: Requirement API Tests
     When method put
     Then status 200
     And match response.statusCode == '200'
+    And match response.uuid == uuid
     # Fetch and verify update
     Given path resourcePath + '/' + uuid
     When method get

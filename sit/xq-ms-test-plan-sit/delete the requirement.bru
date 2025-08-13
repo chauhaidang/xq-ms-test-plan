@@ -1,0 +1,28 @@
+meta {
+  name: delete the requirement
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{gw}}/{{path}}/delete?uuid={{reqId}}
+  body: none
+  auth: inherit
+}
+
+params:query {
+  uuid: {{reqId}}
+}
+
+assert {
+  res.body.statusCode: eq "200"
+  res.body.uuid: isNull
+}
+
+script:post-response {
+  bru.setNextRequest(null)
+}
+
+settings {
+  encodeUrl: true
+}

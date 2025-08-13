@@ -1,0 +1,34 @@
+meta {
+  name: update the created requirement
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{gw}}/{{path}}/update?uuid={{reqId}}
+  body: json
+  auth: inherit
+}
+
+params:query {
+  uuid: {{reqId}}
+}
+
+body:json {
+  {
+    "title": "updated {{reqTitle}}",
+    "description": "Test Description",
+    "scopes": "scope1,scope2",
+    "tags": "tag1,tag2",
+    "references": "http: //example.com"
+  }
+}
+
+assert {
+  res.body.statusCode: eq "200"
+  res.body.uuid: eq {{reqId}}
+}
+
+settings {
+  encodeUrl: true
+}
