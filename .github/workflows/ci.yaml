@@ -39,6 +39,20 @@ jobs:
           ./gradlew build
           ./gradlew msCompTestCi
 
+      - name: Upload report as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: src/test/java/com/xq/testplan/component/report.html
+          retention-days: 30
+
+      - name: Add report link to summary
+        if: always()
+        run: |
+          echo "## 📊 Test Reports" >> $GITHUB_STEP_SUMMARY
+          echo "📝 [View HTML report](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }})" >> $GITHUB_STEP_SUMMARY      
+
   dependency-submission:
     runs-on: ubuntu-latest
     permissions:
