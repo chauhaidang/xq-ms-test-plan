@@ -8,7 +8,7 @@ echo "Running Bruno API tests..."
 # Verify Bruno is installed
 if ! command -v bru &> /dev/null; then
     echo "Bruno is not installed. Installing..."
-    brew install bruno
+    npm install -g @usebruno/cli
 fi
 
 # Run Bruno tests
