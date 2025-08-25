@@ -1,0 +1,33 @@
+meta {
+  name: update  requirement with invalid UUID
+  type: http
+  seq: 6
+}
+
+put {
+  url: {{gw}}/{{path}}/update?uuid=invalid-uuid
+  body: json
+  auth: inherit
+}
+
+params:query {
+  uuid: invalid-uuid
+}
+
+body:json {
+  {
+    "title": "x",
+    "description": "x",
+    "scopes": "x",
+    "tags": "x",
+    "references": "x"
+  }
+}
+
+assert {
+  res.body.errorMessage: eq "updateAccount.uuid: requirement uuid must be a valid UUID"
+}
+
+settings {
+  encodeUrl: true
+}

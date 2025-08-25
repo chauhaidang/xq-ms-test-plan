@@ -1,0 +1,38 @@
+meta {
+  name: create requirement with all missing fields
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{gw}}/{{path}}/create
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "",
+    "description": "",
+    "scopes": "",
+    "tags": "",
+    "references": ""
+  }
+}
+
+assert {
+  res.body.references: eq "References can not be null or empty"
+  res.body.description: eq "Description can not be null or empty"
+  res.body.scopes: eq "Scopes can not be null or empty"
+  res.body.title: eq "Title can not be null or empty"
+  res.body.tags: eq "Tags can not be null or empty"
+}
+
+tests {
+  bru.setVar("reqId", res.body.uuid);
+  
+}
+
+settings {
+  encodeUrl: true
+}

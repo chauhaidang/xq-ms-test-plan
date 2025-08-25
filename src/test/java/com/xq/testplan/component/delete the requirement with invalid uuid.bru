@@ -1,0 +1,23 @@
+meta {
+  name: delete the requirement with invalid uuid
+  type: http
+  seq: 8
+}
+
+delete {
+  url: {{gw}}/{{path}}/delete?uuid=invalid-id
+  body: none
+  auth: inherit
+}
+
+params:query {
+  uuid: invalid-id
+}
+
+assert {
+  res.body.errorMessage: eq deleteAccount.uuid: requirement uuid must be a valid UUID
+}
+
+settings {
+  encodeUrl: true
+}
