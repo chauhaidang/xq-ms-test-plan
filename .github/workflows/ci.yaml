@@ -54,7 +54,7 @@ jobs:
           npm install -g turndown-cli
 
           # Convert HTML to markdown
-          turndown src/test/java/com/xq/testplan/component/report.html > report.md
+          turndown-cli src/test/java/com/xq/testplan/component/report.html > report.md
 
           # Read markdown and append to summary
           echo "## 📊 Test Execution Report" >> $GITHUB_STEP_SUMMARY
