@@ -94,7 +94,7 @@ tasks.register('msIntTest', Test) {
     }
 }
 
-tasks.register("msCompTest", Test) {
+tasks.register("msCompTest", Exec) {
     group = "xq"
     description = "run micro-service component testing"
     def scriptPath = 'scripts/run-bru-tests.sh'
@@ -102,7 +102,7 @@ tasks.register("msCompTest", Test) {
     workingDir project.projectDir
 }
 
-tasks.register('msCompTestCi', Test) {
+tasks.register('msCompTestCi', Exec) {
     group = "xq"
     description = "run micro-service component testing in CI"
     def scriptPath = 'scripts/run-bru-tests.sh'
