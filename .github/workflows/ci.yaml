@@ -47,11 +47,23 @@ jobs:
           path: src/test/java/com/xq/testplan/component/report.html
           retention-days: 30
 
-      - name: Add report link to summary
+      - name: Transform HTML report to markdown
         if: always()
         run: |
-          echo "## 📊 Test Reports" >> $GITHUB_STEP_SUMMARY
-          echo "📝 [View HTML report](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }})" >> $GITHUB_STEP_SUMMARY      
+          # Install html-to-markdown converter
+          npm install -g turndown-cli
+
+          # Convert HTML to markdown
+          turndown src/test/java/com/xq/testplan/component/report.html > report.md
+
+          # Read markdown and append to summary
+          echo "## 📊 Test Execution Report" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          cat report.md >> $GITHUB_STEP_SUMMARY
+          
+          # Add timestamp
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "Generated at: $(date)" >> $GITHUB_STEP_SUMMARY
 
   dependency-submission:
     runs-on: ubuntu-latest
