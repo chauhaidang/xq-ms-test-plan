@@ -47,24 +47,6 @@ jobs:
           path: src/test/java/com/xq/testplan/component/report.html
           retention-days: 30
 
-      - name: Transform HTML report to markdown
-        if: always()
-        run: |
-          # Install html-to-markdown converter
-          npm install -g turndown-cli
-
-          # Convert HTML to markdown
-          turndown-cli src/test/java/com/xq/testplan/component/report.html > report.md
-
-          # Read markdown and append to summary
-          echo "## 📊 Test Execution Report" >> $GITHUB_STEP_SUMMARY
-          echo "---" >> $GITHUB_STEP_SUMMARY
-          cat src/test/java/com/xq/testplan/component/report.md >> $GITHUB_STEP_SUMMARY
-          
-          # Add timestamp
-          echo "---" >> $GITHUB_STEP_SUMMARY
-          echo "Generated at: $(date)" >> $GITHUB_STEP_SUMMARY
-
   dependency-submission:
     runs-on: ubuntu-latest
     permissions:
