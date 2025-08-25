@@ -35,7 +35,9 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Build with Gradle Wrapper
-        run: ./gradlew build -x test
+        run: | 
+          ./gradlew build
+          ./gradlew msCompTestCi
 
   dependency-submission:
     runs-on: ubuntu-latest
