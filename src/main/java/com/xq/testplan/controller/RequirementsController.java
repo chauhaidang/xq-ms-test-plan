@@ -124,6 +124,7 @@ public class RequirementsController {
                         .body(ResponseDto.builder()
                                 .statusCode(STATUS_200)
                                 .statusMsg(MSG_200)
+                                .uuid(uuid)
                                 .build()) :
                 ResponseEntity
                         .status(HttpStatus.EXPECTATION_FAILED)

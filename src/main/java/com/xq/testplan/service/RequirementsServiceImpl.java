@@ -51,7 +51,6 @@ public class RequirementsServiceImpl implements IRequirementsService {
         Requirements requirement = requirementsRepository.findByUuid(uuid).orElseThrow(
                 () -> new ResourceNotFoundException("Requirement", "uuid", uuid)
         );
-        RequirementMapper.mapToRequirement(requirementsDto, requirement);
         requirementsRepository.saveAndFlush(requirement);
         return true;
     }
