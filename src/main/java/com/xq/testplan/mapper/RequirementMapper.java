@@ -9,7 +9,7 @@ public class RequirementMapper {
         requirementsDto.setDescription(requirements.getDescription());
         requirementsDto.setScopes(requirements.getScopes());
         requirementsDto.setTags(requirements.getTags());
-        requirementsDto.setReferences(requirements.getReferences());
+        requirementsDto.setRef(requirements.getRef());
         return requirementsDto;
     }
 
@@ -18,7 +18,7 @@ public class RequirementMapper {
         requirements.setDescription(requirementsDto.getDescription());
         requirements.setScopes(requirementsDto.getScopes());
         requirements.setTags(requirementsDto.getTags());
-        requirements.setReferences(requirementsDto.getReferences());
+        requirements.setRef(requirementsDto.getRef());
         return requirements;
     }
 }

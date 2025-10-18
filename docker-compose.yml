@@ -1,6 +1,25 @@
 version: '3.8'
 
 services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: xq-testplan-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: xq_testplan_db
+      POSTGRES_USER: xq_user
+      POSTGRES_PASSWORD: xq_password
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U xq_user -d xq_testplan_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   xq-ms-test-plan:
     image: xq-ms-test-plan:latest
     build:
@@ -15,3 +34,12 @@ services:
           memory: 300m
     environment:
       SPRING_PROFILES_ACTIVE: "component"
+      DB_URL: "jdbc:postgresql://postgres:5432/xq_testplan_db"
+      DB_USERNAME: "xq_user"
+      DB_PASSWORD: "xq_password"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres-data:

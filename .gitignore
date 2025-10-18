@@ -39,3 +39,11 @@ cucumber-report.html
 
 target
 report.html
+
+# Environment variables
+.env
+.env.local
+
+# Database
+*.db
+*.db-journal
