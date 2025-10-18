@@ -1,5 +1,6 @@
 plugins {
     id 'xq-dev'
+    id 'xq-test'
     id 'org.springframework.boot' version "3.3.0"
     id 'com.avast.gradle.docker-compose' version '0.17.6'
 }
@@ -62,11 +63,6 @@ dependencies {
     testImplementation "io.karatelabs:karate-junit5:${karateVersion}"
     testImplementation("com.xq:xq-api-test-plan:1.0.0")
     testImplementation "com.xq:xq-kit-common:1.0.0"
-}
-
-//Extension configuration
-unitTest {
-    path = "com.xq.testplan.unit.*"
 }
 
 sourceSets {
