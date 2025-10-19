@@ -5,6 +5,10 @@ spring:
   application:
     name: xq-svc-testplan
 
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.actuate.autoconfigure.metrics.SystemMetricsAutoConfiguration
+
   datasource:
     url: ${DB_URL:jdbc:postgresql://postgres:5432/xq_testplan_db}
     driver-class-name: org.postgresql.Driver
