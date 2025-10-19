@@ -23,7 +23,7 @@ pluginManagement {
         }
     }
     ext {
-        pluginXqVersion = '2.0.3'
+        pluginXqVersion = '2.1.2'
     }
 
     // When a module use plugin with id starting with 'xq'

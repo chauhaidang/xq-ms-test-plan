@@ -5,6 +5,7 @@ import lombok.*;
 
 
 @Entity
+@Table(name = "requirements")
 @Getter
 @Setter
 @ToString
@@ -32,6 +33,6 @@ public class Requirements extends BaseEntity {
     @Column(name = "tags", nullable = false, length = 200)
     private String tags;
 
-    @Column(name = "references", nullable = false, length = 500)
-    private String references;
+    @Column(name = "ref", nullable = false, length = 500)
+    private String ref;
 }

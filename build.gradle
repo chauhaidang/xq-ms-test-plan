@@ -1,5 +1,6 @@
 plugins {
     id 'xq-dev'
+    id 'xq-test'
     id 'org.springframework.boot' version "3.3.0"
     id 'com.avast.gradle.docker-compose' version '0.17.6'
 }
@@ -48,18 +49,20 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-web:$springboot_version"
     implementation "org.springframework.boot:spring-boot-starter-test:$springboot_version"
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
+    implementation 'org.flywaydb:flyway-core:10.10.0'
+    implementation 'org.flywaydb:flyway-database-postgresql:10.10.0'
 
     annotationProcessor("org.projectlombok:lombok:${lombok_version}")
-    runtimeOnly 'com.h2database:h2:2.2.224'
+
+    // PostgreSQL for production/component testing
+    runtimeOnly 'org.postgresql:postgresql:42.7.3'
+
+    // H2 for unit/integration tests
+    testRuntimeOnly 'com.h2database:h2:2.2.224'
 
     testImplementation "io.karatelabs:karate-junit5:${karateVersion}"
     testImplementation("com.xq:xq-api-test-plan:1.0.0")
     testImplementation "com.xq:xq-kit-common:1.0.0"
-}
-
-//Extension configuration
-unitTest {
-    path = "com.xq.testplan.unit.*"
 }
 
 sourceSets {

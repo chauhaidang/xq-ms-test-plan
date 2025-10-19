@@ -16,12 +16,12 @@ body:json {
     "description": "",
     "scopes": "",
     "tags": "",
-    "references": ""
+    "ref": ""
   }
 }
 
 assert {
-  res.body.references: eq "References can not be null or empty"
+  res.body.ref: eq "References can not be null or empty"
   res.body.description: eq "Description can not be null or empty"
   res.body.scopes: eq "Scopes can not be null or empty"
   res.body.title: eq "Title can not be null or empty"

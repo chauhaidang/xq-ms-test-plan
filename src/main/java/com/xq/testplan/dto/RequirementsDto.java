@@ -34,5 +34,5 @@ public class RequirementsDto {
     @Schema(description = "Requirement references", example = "Reference1, Reference2")
     @NotEmpty(message = "References can not be null or empty")
     @Size(max = 500, message = "References length must be less than or equal to 500")
-    private String references;
+    private String ref;
 }

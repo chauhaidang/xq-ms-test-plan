@@ -1,18 +1,42 @@
 server:
   port: 8081
+
 spring:
   application:
     name: xq-svc-testplan
+
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.actuate.autoconfigure.metrics.SystemMetricsAutoConfiguration
+
   datasource:
-    url: jdbc:h2:mem:xq-svc-testplan-db
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
-  h2:
-    console:
-      enabled: true
+    url: ${DB_URL:jdbc:postgresql://postgres:5432/xq_testplan_db}
+    driver-class-name: org.postgresql.Driver
+    username: ${DB_USERNAME:xq_user}
+    password: ${DB_PASSWORD:xq_password}
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 2
+      connection-timeout: 30000
+
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+    schemas: public
+
+management:
+  metrics:
+    enable:
+      system.cpu: false
+      process.cpu: false
+      jvm.processor: false
