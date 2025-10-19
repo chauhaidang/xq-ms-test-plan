@@ -47,3 +47,8 @@ report.html
 # Database
 *.db
 *.db-journal
+
+# Generated API clients (do not commit generated code)
+generated-clients/*
+!generated-clients/.gitignore
+!generated-clients/README.md
