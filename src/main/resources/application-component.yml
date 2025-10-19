@@ -30,8 +30,9 @@ spring:
     locations: classpath:db/migration
     schemas: public
 
-management:
-  metrics:
-    binders:
-      processor:
-        enabled: false
+  management:
+    metrics:
+      enable:
+        system.cpu: false
+        process.cpu: false
+        jvm.processor: false
