@@ -61,7 +61,6 @@ dependencies {
     testRuntimeOnly 'com.h2database:h2:2.2.224'
 
     testImplementation "io.karatelabs:karate-junit5:${karateVersion}"
-    testImplementation 'com.xq.testplan:testplan-api-client:1.0.0'
     testImplementation "com.xq:xq-kit-common:1.0.0"
 }
 
