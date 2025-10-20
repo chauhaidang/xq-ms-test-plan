@@ -25,12 +25,12 @@ jobs:
         id: check
         run: |
           # Extract current version from API spec
-          CURRENT_VERSION=$(grep -A1 "^info:" api/test-plan-api.yaml | grep "version:" | awk '{print $2}' | tr -d '"' | tr -d "'")
+          CURRENT_VERSION=$(grep "^  version:" api/test-plan-api.yaml | head -1 | awk '{print $2}' | tr -d '"' | tr -d "'")
           echo "version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
 
           # Check if this is the first commit or if file changed
           if git show HEAD~1:api/test-plan-api.yaml 2>/dev/null; then
-            PREVIOUS_VERSION=$(git show HEAD~1:api/test-plan-api.yaml | grep -A1 "^info:" | grep "version:" | awk '{print $2}' | tr -d '"' | tr -d "'")
+            PREVIOUS_VERSION=$(git show HEAD~1:api/test-plan-api.yaml | grep "^  version:" | head -1 | awk '{print $2}' | tr -d '"' | tr -d "'")
             echo "previous_version=$PREVIOUS_VERSION" >> $GITHUB_OUTPUT
 
             if [ "$CURRENT_VERSION" != "$PREVIOUS_VERSION" ]; then
