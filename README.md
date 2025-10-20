@@ -1,6 +1,10 @@
 # XQ-MS-TEST-PLAN
 
 > Spring Boot microservice for managing test plan requirements
+ 
+[![CI build](https://github.com/chauhaidang/xq-ms-test-plan/actions/workflows/ci.yaml/badge.svg)](https://github.com/chauhaidang/xq-ms-test-plan/actions/workflows/ci.yaml) 
+
+[![Generate and Publish API Client](https://github.com/chauhaidang/xq-ms-test-plan/actions/workflows/publish-api-client.yml/badge.svg)](https://github.com/chauhaidang/xq-ms-test-plan/actions/workflows/publish-api-client.yml)
 
 **Version**: 0.0.1
 **Java**: 17
