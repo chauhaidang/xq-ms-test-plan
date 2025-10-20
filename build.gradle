@@ -62,7 +62,7 @@ dependencies {
 
     testImplementation "io.karatelabs:karate-junit5:${karateVersion}"
     testImplementation "com.xq:xq-kit-common:1.0.0"
-    testImplementation 'com.xq.testplan:testplan-api-client:1.1.0'
+    testImplementation 'com.xq.testplan:testplan-api-client:1.0.2'
 }
 
 sourceSets {
