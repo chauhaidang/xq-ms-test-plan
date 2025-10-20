@@ -117,16 +117,6 @@ jobs:
           cat >> build.gradle << 'EOF'
 
           publishing {
-              publications {
-                  mavenJava(MavenPublication) {
-                      from components.java
-
-                      groupId = 'com.xq.testplan'
-                      artifactId = 'testplan-api-client'
-                      version = '${{ needs.detect-version-change.outputs.current_version }}'
-                  }
-              }
-
               repositories {
                   maven {
                       name = "GitHubPackages"
@@ -148,63 +138,6 @@ jobs:
         run: |
           ./gradlew publish
           echo "✅ Published to GitHub Packages: com.xq.testplan:testplan-api-client:${{ needs.detect-version-change.outputs.current_version }}"
-
-      - name: Create Release Notes
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const version = '${{ needs.detect-version-change.outputs.current_version }}';
-            const previousVersion = '${{ needs.detect-version-change.outputs.previous_version }}';
-
-            const body = `## 📦 API Client Published
-
-            **Version:** \`${version}\`
-            ${previousVersion !== 'none' ? `**Previous Version:** \`${previousVersion}\`` : ''}
-
-            ### Java Client (Gradle)
-
-            Add to your \`build.gradle\`:
-            \`\`\`groovy
-            repositories {
-                maven {
-                    url = uri("https://maven.pkg.github.com/${{ github.repository }}")
-                    credentials {
-                        username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
-                        password = project.findProperty("gpr.token") ?: System.getenv("GITHUB_TOKEN")
-                    }
-                }
-            }
-
-            dependencies {
-                implementation 'com.xq.testplan:testplan-api-client:${version}'
-            }
-            \`\`\`
-
-            ### Authentication
-
-            Add to \`~/.gradle/gradle.properties\`:
-            \`\`\`properties
-            gpr.user=YOUR_GITHUB_USERNAME
-            gpr.token=YOUR_GITHUB_TOKEN
-            \`\`\`
-
-            Or use environment variables:
-            \`\`\`bash
-            export GITHUB_ACTOR=your-username
-            export GITHUB_TOKEN=your-token
-            \`\`\`
-
-            ---
-            🤖 Generated automatically from [test-plan-api.yaml](https://github.com/${{ github.repository }}/blob/${{ github.sha }}/api/test-plan-api.yaml)
-            `;
-
-            // Create or update issue/comment for tracking
-            github.rest.repos.createCommitComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              commit_sha: context.sha,
-              body: body
-            });
 
   skip-publish:
     needs: detect-version-change
