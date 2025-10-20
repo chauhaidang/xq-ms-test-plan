@@ -52,3 +52,4 @@ report.html
 generated-clients/*
 !generated-clients/.gitignore
 !generated-clients/README.md
+*temp*.json

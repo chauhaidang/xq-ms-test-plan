@@ -403,7 +403,7 @@ git tag -a api-v1.1.0 -m "API version 1.1.0"
 - [OpenAPI Generator](https://openapi-generator.tech/)
 - [GitHub Packages Maven](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry)
 - [Semantic Versioning](https://semver.org/)
-- [Client Generator README](client-generator/README.md)
+- [Client Generator README](../client-generator/README.md)
 
 ---
 

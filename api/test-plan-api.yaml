@@ -8,7 +8,7 @@ info:
     email: service.testplan@xq.com
   license:
     name: Apache 2.0
-  version: 1.0.0
+  version: 1.0.1
 externalDocs:
   description: external documentation
   url: http://localhost:8081/swagger-ui/index.html
