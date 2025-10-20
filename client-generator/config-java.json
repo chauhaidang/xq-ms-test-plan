@@ -1,0 +1,19 @@
+{
+  "groupId": "com.xq.testplan",
+  "artifactId": "testplan-api-client",
+  "artifactVersion": "dynamic",
+  "apiPackage": "com.xq.testplan.client.api",
+  "modelPackage": "com.xq.testplan.client.model",
+  "invokerPackage": "com.xq.testplan.client",
+  "library": "resttemplate",
+  "dateLibrary": "java8",
+  "java8": true,
+  "serializationLibrary": "jackson",
+  "hideGenerationTimestamp": true,
+  "useBeanValidation": true,
+  "performBeanValidation": true,
+  "useJakartaEe": true,
+  "openApiNullable": false,
+  "gradleProperties": true,
+  "gradleBuildFile": true
+}

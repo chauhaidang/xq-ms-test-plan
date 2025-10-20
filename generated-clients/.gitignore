@@ -1,0 +1,8 @@
+# Ignore all generated client code
+*
+
+# But keep this .gitignore file
+!.gitignore
+
+# And keep README
+!README.md
